@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    volumes:
+      - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./conf/rules.yml:/etc/prometheus/rules.yml
+    ports:
+      - "9090:9090"
+    container_name: prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
+    privileged: true
+    depends_on:
+      - node-exporter
+      - pushgateway
+      - alertmanager
+    networks:
+      - monitor
+    user: root
+
+  node-exporter:
+    image: prom/node-exporter:v1.0.1
+    ports:
+      - "9100:9100"
+    container_name: node_exporter
+    networks:
+      - monitor
+    privileged: true
+
+  pushgateway:
+    image: prom/pushgateway:v1.3.0
+    ports:
+      - "9091:9091"
+    container_name: pushgateway
+    networks:
+      - monitor
+
+  alertmanager:
+    image: prom/alertmanager:v0.21.0
+    volumes:
+      - ./conf/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - "9093:9093"
+    container_name: alertmanager
+    command: --config.file=/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitor
+    privileged: true
+
+  grafana:
+    image: grafana/grafana:7.2.1
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    container_name: grafana
+    privileged: true
+    user: root
+    depends_on:
+      - prometheus
+    networks:
+      - monitor
+
+networks:
+  monitor:
