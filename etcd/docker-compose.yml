@@ -1,0 +1,18 @@
+version: '2'
+services:
+  etcd:
+    image: docker.io/bitnami/etcd:3.4.13
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+    volumes:
+      - ./data:/bitnami/etcd
+    ports:
+      - "2379:2379"
+  etcd-manage:
+    build: .
+    volumes:
+      - ./bin/config/cfg.toml:/app/config/cfg.toml
+    ports:
+      - "10280:10280"
+    depends_on:
+      - etcd
