@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: service-monitor-example
+  labels:
+    service-monitor-instance: 'service-monitor-example'
+spec:
+  selector:
+    matchLabels:
+      operated-prometheus: 'true'
+  endpoints:
+    - port: gameplay-manager-prometheus-port
+      interval: 30s
+

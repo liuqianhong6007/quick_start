@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-rules-example
+  labels:
+    role: alert-rules
+spec:
+  groups:
+    - name: ./base-service.rules
+      rules:
+        - alert: GoRoutineAlert
+          expr: go_goroutines >= bool 20
+          for: 30s
+          labels:
+            alertEventType: GoRoutineNumberUpToMax
+          annotations:
+            summary: "{{ $labels.instance }} occurs a GoRoutineNumberUpToMax event"
+            description: "{{ $labels.instance }} occurs a GoRoutineNumberUpToMax event"

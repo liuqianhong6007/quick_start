@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: alert-manager-config-example
+  labels:
+    alert-manager-config-instance: 'alert-manager-config-example'
+spec:
+  route:
+    groupBy: [alertname]
+    groupWait: 10s
+    groupInterval: 1m
+    repeatInterval: 1h
+    receiver: email
+    routes:
+    - match:
+        alertEventType: GoRoutineNumberUpToMax
+      receiver: email
+  receivers:
+    - name: email
+      emailConfigs:
+        - to: 5492804051@qq.com
+          from: 549280405@qq.com
+          smarthost: smtp.qq.com:587
+          authUsername: 549280405@qq.com
+          authPassword: 
+            name: alert-manager-config-receiver-auth 
+            key: qqPassword
+          authIdentity: 549280405@qq.com
