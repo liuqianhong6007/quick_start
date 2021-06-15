@@ -12,4 +12,5 @@ services:
     - "14250:14250"
     - "9411:9411"
     environment:
-      COLLECTOR_ZIPKIN_HOST_PORT: ":9411" 
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+    restart: on-failure

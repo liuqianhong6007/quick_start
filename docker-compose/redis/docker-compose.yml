@@ -6,6 +6,5 @@ services:
       - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "6379:6379"
-    container_name: redis
     entrypoint: redis-server /usr/local/etc/redis/redis.conf
-    privileged: true
+    restart: on-failure

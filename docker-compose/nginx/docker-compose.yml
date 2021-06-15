@@ -9,3 +9,4 @@ services:
     ports:
       - "8080:80"
     privileged: true
+    restart: on-failure

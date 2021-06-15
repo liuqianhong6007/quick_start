@@ -13,5 +13,5 @@ services:
       - "10080:80"
       - "10443:443"
       - "10022:22"
-    container_name: gitlab
     privileged: true
+    restart: on-failure
