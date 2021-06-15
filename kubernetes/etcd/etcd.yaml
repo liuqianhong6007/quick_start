@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: etcd-svc
+  name: etcd
 spec:
   selector:
     component: etcd
@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: etcd-deploy
+  name: etcd
 spec:
   selector:
     matchLabels:
