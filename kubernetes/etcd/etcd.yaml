@@ -12,13 +12,14 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: etcd
 spec:
   selector:
     matchLabels:
       component: etcd
+  serviceName: etcd
   template:
     metadata:
       labels:
