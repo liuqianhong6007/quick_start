@@ -1,0 +1,7 @@
+version: '3'
+services:
+  ubuntu:
+    image: ubuntu:20.10
+    entrypoint: ["sh"]
+    command: ["-c","while [ true ];do sleep 1000;done"]
+    restart: on-failure
