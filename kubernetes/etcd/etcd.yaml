@@ -8,6 +8,9 @@ spec:
   ports:
   - port: 2379
     protocol: TCP
+    targetPort: 2379
+    nodePort: 32379
+  type: NodePort
 
 ---
 
