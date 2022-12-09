@@ -6,7 +6,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:
-      - "13306:3306"
+      - "3306:3306"
     volumes:
       - ./data:/var/lib/mysql
     restart: on-failure
