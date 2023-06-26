@@ -1,10 +1,13 @@
-version: '3'
+version: '3.1'
 services:
   redis:
-    image: redis:6.0.8
+    image: bitnami/redis:6.2.12
     volumes:
-      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data:/bitnami/redis/data
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      #- REDIS_PASSWORD=password
+      #- REDIS_AOF_ENABLED=no
     ports:
       - "6379:6379"
-    entrypoint: redis-server /usr/local/etc/redis/redis.conf
     restart: on-failure
