@@ -1,66 +1,36 @@
-version: '3'
-
+version: '3.1'
 services:
-  prometheus:
-    image: prom/prometheus:v2.22.0
+  prometheus-server:
+    image: bitnami/prometheus:2.23.0
+    container_name: prometheus-server
     volumes:
-      - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./conf/rules.yml:/etc/prometheus/rules.yml
+      # https://prometheus.io/docs/prometheus/latest/configuration/configuration
+      - ./conf/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml
+      - ./data/prometheus_data:/opt/bitnami/prometheus/data
+    command:
+      - "--config.file=/opt/bitnami/prometheus/conf/prometheus.yml"
+      - "--storage.tsdb.path=/opt/bitnami/prometheus/data"
+      - "--web.console.libraries=/opt/bitnami/prometheus/conf/console_libraries"
+      - "--web.console.templates=/opt/bitnami/prometheus/conf/consoles"
+      - "--web.route-prefix=/"
     ports:
-      - "9090:9090"
-    container_name: prometheus
-    command: --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
-    privileged: true
-    depends_on:
-      - node-exporter
-      - pushgateway
-      - alertmanager
-    networks:
-      - monitor
-    user: root
+      - '9090:9090'
+    restart: on-failure
 
-  node-exporter:
-    image: prom/node-exporter:v1.0.1
-    ports:
-      - "9100:9100"
-    container_name: node_exporter
-    networks:
-      - monitor
-    privileged: true
-
-  pushgateway:
-    image: prom/pushgateway:v1.3.0
-    ports:
-      - "9091:9091"
-    container_name: pushgateway
-    networks:
-      - monitor
-
-  alertmanager:
-    image: prom/alertmanager:v0.21.0
+  grafana-server:
+    image: bitnami/grafana:7.3.4
+    container_name: grafana-server
+    environment:
+      # https://grafana.com/docs/grafana/latest/administration/configuration/
+      - 'GF_SECURITY_ADMIN_USER=admin'
+      - 'GF_SECURITY_ADMIN_PASSWORD=admin_password'
+      # https://grafana.com/tutorials/run-grafana-behind-a-proxy/
+      - 'GF_SERVER_HTTP_PORT=8848'
+      - 'GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:%(http_port)s/grafana/'
+      - 'GF_SERVER_SERVE_FROM_SUB_PATH=true'
     volumes:
-      - ./conf/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./data/grafana_data:/opt/bitnami/grafana/data
     ports:
-      - "9093:9093"
-    container_name: alertmanager
-    command: --config.file=/etc/alertmanager/alertmanager.yml
-    networks:
-      - monitor
-    privileged: true
+      - '8848:8848'
+    restart: on-failure
 
-  grafana:
-    image: grafana/grafana:7.2.1
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./grafana:/var/lib/grafana
-    container_name: grafana
-    privileged: true
-    user: root
-    depends_on:
-      - prometheus
-    networks:
-      - monitor
-
-networks:
-  monitor:

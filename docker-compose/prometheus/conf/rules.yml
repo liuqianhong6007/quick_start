@@ -1,8 +1,0 @@
-groups:
-- name: push-gateway
-  rules:
-  - alert: test_metric_param_exception
-  expr:
-  labels:
-  annotations:
-    description: 'hahaha'

@@ -1,39 +1,24 @@
-# my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
 
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-        - 192.168.188.128:9093
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-  - "/etc/prometheus/rules.yml"
-  # - "first_rules.yml"
-  # - "second_rules.yml"
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
 
 # A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
     scrape_interval: 5s
     static_configs:
-    - targets: ['localhost:9090']
-      labels:
-        group: 'prometheus-server'
-    - targets: ['192.168.188.128:9100']
-      labels:
-        group: 'node-exporter'
-    - targets: ['192.168.188.128:9091']
-      labels:
-        group: 'push-gateway'
+      - targets: ['10.41.1.140:9090']
+
+  - job_name: 'open-match-query'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51503']
+
+  - job_name: 'open-match-mmf'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:6061']
