@@ -3,7 +3,7 @@ services:
   redis:
     image: bitnami/redis:6.2.12
     volumes:
-      - ./data/master:/bitnami/redis/data
+      - ./data:/bitnami/redis/data
     environment:
       #- ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PASSWORD=example
