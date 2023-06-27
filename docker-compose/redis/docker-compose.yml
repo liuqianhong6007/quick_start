@@ -1,29 +1,13 @@
 version: '3.1'
 services:
-  redis-master:
+  redis:
     image: bitnami/redis:6.2.12
     volumes:
       - ./data/master:/bitnami/redis/data
     environment:
-      - REDIS_REPLICATION_MODE=master
-      - ALLOW_EMPTY_PASSWORD=yes
+      #- ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_PASSWORD=example
       - REDIS_AOF_ENABLED=no
     ports:
       - "6379:6379"
     restart: on-failure
-
-  redis-replica:
-    image: bitnami/redis:6.2.12
-    volumes:
-      - ./data/slave:/bitnami/redis/data
-    environment:
-      - REDIS_REPLICATION_MODE=slave
-      - REDIS_MASTER_HOST=redis-master
-      - REDIS_MASTER_PORT_NUMBER=6379
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_AOF_ENABLED=no
-    ports:
-      - "6379"
-    restart: on-failure  
-    depends_on:
-      - redis-master
