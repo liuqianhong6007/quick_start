@@ -13,12 +13,33 @@ scrape_configs:
     static_configs:
       - targets: ['10.41.1.140:9090']
 
+  - job_name: 'open-match-mmf'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51509']
+
+  - job_name: 'open-match-evaluator'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51508']
+
+  - job_name: 'open-match-synchronizer'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51506']
+
+  - job_name: 'open-match-backend'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51505']
+
+  - job_name: 'open-match-frontend'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.41.1.140:51504']
+
   - job_name: 'open-match-query'
     scrape_interval: 5s
     static_configs:
       - targets: ['10.41.1.140:51503']
 
-  - job_name: 'open-match-mmf'
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['10.41.1.140:6061']
