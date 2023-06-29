@@ -2,37 +2,40 @@ version: '3.1'
 services:
   redis:
     image: 'bitnami/redis:6.2.12'
+    restart: on-failure
     environment:
       - REDIS_REPLICATION_MODE=master
-      - REDIS_PASSWORD=bitnami
+      - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - "./data/master:/bitnami/redis/data"
-    ports:
-      - '6379'
+    networks:
+      - tier
     
-
   redis-slave:
     image: 'bitnami/redis:6.2.12'
+    restart: on-failure
     environment:
       - REDIS_REPLICATION_MODE=slave
       - REDIS_MASTER_HOST=redis
-      - REDIS_MASTER_PASSWORD=bitnami
-      - REDIS_PASSWORD=bitnami
+      - ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - "./data/slave:/bitnami/redis/data"
-    ports:
-      - '6379'
     depends_on:
       - redis
+    networks:
+      - tier
 
   redis-sentinel:
     image: 'bitnami/redis-sentinel:6.2.12'
-    environment:
-      - REDIS_MASTER_PASSWORD=bitnami
+    restart: on-failure
     volumes:
       - "./data/sentinel:/bitnami/redis/data"
     depends_on:
       - redis
       - redis-slave
-    ports:
-      - '26379:26379'
+    networks:
+      - tier
+
+networks:
+  tier:
+    driver: bridge
