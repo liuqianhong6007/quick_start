@@ -1,0 +1,44 @@
+version: "3.1"
+services:
+  etcd:
+    image: docker.io/bitnami/etcd:3.5.7
+    environment:
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://etcd:2379"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+    volumes:
+      - ./data/etcd_data:/bitnami/etcd
+    networks:
+      - apisix
+    restart: on-failure
+
+  apisix:
+    image: apache/apisix:3.4.0-debian
+    volumes:
+      - ./conf/apisix-config.yaml:/usr/local/apisix/conf/config.yaml
+    depends_on:
+      - etcd
+    ports:
+      - "9180:9180/tcp"
+      - "9080:9080/tcp"
+      - "9091:9091/tcp"
+      - "9443:9443/tcp"
+      - "9092:9092/tcp"
+    networks:
+      - apisix
+    restart: on-failure
+
+  apisix-dashboard:
+    image: apache/apisix-dashboard:3.0.1-alpine
+    volumes:
+      - ./conf/dashboard-config.yaml:/usr/local/apisix-dashboard/conf/conf.yaml
+    ports:
+      - "9000:9000/tcp"
+    networks:
+      - apisix
+    restart: on-failure
+
+networks:
+  apisix:
+    driver: bridge
+
