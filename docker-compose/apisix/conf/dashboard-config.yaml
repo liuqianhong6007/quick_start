@@ -59,6 +59,7 @@ plugins:                          # plugin list (sorted in alphabetical order)
   # - error-log-logger
   # - example-plugin
   - fault-injection
+  - forward-auth
   - grpc-transcode
   - hmac-auth
   - http-logger
