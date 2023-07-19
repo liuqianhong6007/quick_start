@@ -32,3 +32,8 @@ plugin_attr:
     export_addr:
       ip: "0.0.0.0"
       port: 9091
+    metrics:
+      http_status:
+        extra_labels:
+          - upstream_addr: $upstream_addr
+          - upstream_status: $upstream_status
