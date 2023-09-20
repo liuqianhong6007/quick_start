@@ -2,7 +2,7 @@
 
 function start()
 {
-	container_id=$(docker ps --filter "name=easyconnect" --format "{{json .ID}}")
+	container_id=$(docker ps -a --filter "name=easyconnect" --format "{{json .ID}}")
 	if [ -z  "$container_id" ];then
         	# 5901 端口是给 vnc clienttt 使用
         	# 1080 端口是 socket5 代理端口
@@ -19,7 +19,7 @@ function stop()
 
 function restart()
 {
-	container_id=$(docker ps --filter "name=easyconnect" --format "{{json .ID}}")
+	container_id=$(docker ps -a --filter "name=easyconnect" --format "{{json .ID}}")
 	if [ ! -z  "$container_id" ];then
         	stop
 	fi
