@@ -1,0 +1,39 @@
+version: '3'
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.87.0
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+    volumes:
+      - "./config.yaml:/etc/otelcol-contrib/config.yaml"
+    restart: on-failure
+    depends_on:
+      - jaeger-all-in-one
+      - prometheus
+
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:1.50
+    ports:
+    - "16686:16686" # serve frontend
+    restart: on-failure
+
+  prometheus:
+    image: bitnami/prometheus:2.23.0
+    volumes:
+      - ./prometheus.yaml:/opt/bitnami/prometheus/conf/prometheus.yaml
+      - ./data/prometheus_data:/opt/bitnami/prometheus/data
+    command:
+      - "--config.file=/opt/bitnami/prometheus/conf/prometheus.yaml"
+      - "--storage.tsdb.path=/opt/bitnami/prometheus/data"
+      - "--web.console.libraries=/opt/bitnami/prometheus/conf/console_libraries"
+      - "--web.console.templates=/opt/bitnami/prometheus/conf/consoles"
+      - "--web.route-prefix=/"
+    ports:
+      - '9090:9090'
+    restart: on-failure
