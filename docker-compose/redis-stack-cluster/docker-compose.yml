@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  node-0:
+    image: registry.sofunny.io/library/redis-stack-server:7.2.0-v8 
+    volumes:
+      - ./conf/redis-7000.conf:/etc/redis-stack.conf
+      - ./data/7000:/var/lib/redis
+    restart: on-failure
+    network_mode: "host"
+    command: "redis-server /etc/redis-stack.conf"
+
+  node-1:
+    image: registry.sofunny.io/library/redis-stack-server:7.2.0-v8
+    volumes:
+      - ./conf/redis-7001.conf:/etc/redis-stack.conf
+      - ./data/7001:/var/lib/redis
+    restart: on-failure
+    network_mode: "host"
+    command: "redis-server /etc/redis-stack.conf"
+
+  node-2:
+    image: registry.sofunny.io/library/redis-stack-server:7.2.0-v8
+    volumes:
+      - ./conf/redis-7002.conf:/etc/redis-stack.conf
+      - ./data/7002:/var/lib/redis
+    restart: on-failure
+    network_mode: "host"
+    command: "redis-server /etc/redis-stack.conf"
