@@ -7,8 +7,8 @@ services:
       - ./config.json:/centrifugo/config.json
     command: centrifugo -c config.json
     ports:
-      - "8000:8000"
-      - "8100:9000"
+      - "8100:8000"
+      - "8101:9000"
     ulimits:
       nofile:
         soft: 65535
