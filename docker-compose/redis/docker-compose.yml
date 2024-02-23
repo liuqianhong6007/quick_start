@@ -6,7 +6,7 @@ services:
       - ./data:/bitnami/redis/data
     environment:
       #- ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_PASSWORD=example
+      - REDIS_PASSWORD=redispw
       - REDIS_AOF_ENABLED=no
     ports:
       - "6379:6379"
