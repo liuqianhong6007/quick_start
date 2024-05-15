@@ -1,0 +1,36 @@
+{
+    "urls": [
+        {
+		"name": "ppserver",
+		"url": "http://10.41.1.140:18080/swaggerui/ppserver_swagger.json"
+        },
+	{	
+		"name": "gamelift",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/game_lift%2Fv1%2Fgame_lift.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "gamelift-upload-build",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/game_lift%2Fv1%2Fgame_lift_upload_build.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "authentication",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/authentication%2Fv1%2Fauthentication.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "matchmaking_testing_toolkit",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/matchmaking_testing_toolkit%2Fv1%2Fmatchmaking_testing_toolkit.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "qos",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/qos%2Fv1%2Fqos.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "relay",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/relay%2Fv1%2Frelay.swagger.json/raw?ref=develop"
+	},
+	{	
+		"name": "space",
+		"url": "https://git.sofunny.io/api/v4/projects/1428/repository/files/space%2Fv1%2Fspace.swagger.json/raw?ref=develop"
+	}
+    ]
+}
